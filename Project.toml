@@ -1,0 +1,7 @@
+name = "JuliaMono"
+uuid = "3ddd733a-d0fc-4af2-aaf7-62a5c76fb4e7"
+authors = ["Simeon Schaub <simeondavidschaub99@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
