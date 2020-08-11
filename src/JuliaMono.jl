@@ -8,7 +8,10 @@ const TTF_FILES = artifact"JuliaMono"
 
 function install()
     for i in readdir(TTF_FILES)
-        run(`ln -s $(joinpath(TTF_FILES, i)) $(joinpath(ENV["HOME"], ".fonts", i))`)
+        fontfolder = haskey(ENV, "XDG_DATA_HOME") ?
+                         joinpath(ENV["XDG_DATA_HOME"], "fonts") :
+                         joinpath(homedir(), ".fonts")
+        run(`ln -s $(joinpath(TTF_FILES, i)) $(joinpath(fontfolder, i))`)
     end
 end
 
