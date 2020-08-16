@@ -6,6 +6,7 @@ using Pkg.Artifacts
 
 const TTF_FILES = artifact"JuliaMono"
 const ARTIFACTS_TOML = find_artifacts_toml(@__FILE__)
+const FONTS_DIR = Ref{String}()
 
 function save_install_location!(install_location)
     git_tree_sha1 = create_artifact() do artifact_dir
@@ -31,29 +32,41 @@ function unsave_install_location!()
 end
 
 function install()
-    Sys.islinux() || error("Only Linux is currently supported!")
-
-    install_location = haskey(ENV, "XDG_DATA_HOME") ?
-        joinpath(ENV["XDG_DATA_HOME"], "fonts") :
-        joinpath(homedir(), ".fonts")
-
-    ispath(install_location) || mkpath(install_location, mode=0o755)
+    isassigned(FONTS_DIR) || error("Unsupported platform!")
 
     for i in readdir(TTF_FILES)
-        run(`ln -s $(joinpath(TTF_FILES, i)) $(joinpath(install_location, i))`)
+        run(`ln -s $(joinpath(TTF_FILES, i)) $(joinpath(FONTS_DIR[], i))`)
     end
 
-    save_install_location!(install_location)
+    save_install_location!(FONTS_DIR[])
 end
 
 function uninstall()
-    Sys.islinux() || error("Only Linux is currently supported!")
+    isassigned(FONTS_DIR) || error("Unsupported platform!")
 
     install_location = unsave_install_location!()
 
     for i in readdir(TTF_FILES)
         rm(joinpath(install_location, i))
     end
+end
+
+function __init__()
+    if Sys.islinux()
+        if haskey(ENV, "XDG_DATA_HOME")
+            FONTS_DIR[] = joinpath(ENV["XDG_DATA_HOME"], "fonts")
+        else
+            FONTS_DIR[] = joinpath(homedir(), ".fonts")
+        end
+    elseif Sys.isapple()
+        FONTS_DIR[] = joinpath(homedir(), "Library", "Fonts")
+    else
+        @warn "$(Sys.KERNEL) not supported"
+        return
+    end
+
+    ispath(FONTS_DIR[]) || mkpath(FONTS_DIR[], mode=0o755)
+    nothing
 end
 
 end
