@@ -21,6 +21,6 @@ function occurences()
 end
 
 install()
-@test occurences() == 6
+@test occurences() == 7
 uninstall()
 @test occurences() == 0
