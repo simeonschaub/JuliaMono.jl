@@ -1,6 +1,9 @@
+[INSTALL_LOCATION]
+git-tree-sha1 = "206902fc60e7523c676047e3a448af1601ca3c57"
+
 [JuliaMono]
-git-tree-sha1 = "88bc31e83c9c789f783abd8d843c9253c2a18ac3"
+git-tree-sha1 = "330380336d7b14833a8daa988921197e1faf366b"
 
     [[JuliaMono.download]]
-    sha256 = "360ae89468cfe9275cada6b4da19123d78a84759faaf068c2dac17f645140f4f"
-    url = "https://github.com/cormullion/juliamono/releases/download/v0.011/JuliaMono.tar.gz"
+    sha256 = "7c5330e645fecc1e7ca9011a93f1fc43c7357f2ea8501adfa0ca87e81b2ed80a"
+    url = "https://github.com/cormullion/juliamono/releases/download/v0.012/JuliaMono.tar.gz"
